@@ -18,8 +18,27 @@ const LaunchRequestHandler = {
     }
 };
 
+const HelpIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'AMAZON.HelpIntent';
+    },
+    handle(handlerInput) {
+        const say = `You can ask me about a variety of Pokemon and the following traits about them:
+        type, height, weight. An example question could be: "Tell me about Jigglypuff". You can also ask
+        about the type match-up between two pokemon, which could look like: "How effective is Bulbasaur
+        against Squirtle?". So what would you like to know?`;
+
+        return handlerInput.responseBuilder
+            .speak(say)
+            .reprompt(say)
+            .getResponse();
+    }
+};
+
 skillBuilder.addRequestHandlers(
     LaunchRequestHandler,
+    HelpIntentHandler,
 );
 
 const skill = skillBuilder.create();
