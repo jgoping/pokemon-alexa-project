@@ -49,10 +49,29 @@ const StopIntentHandler = {
             .getResponse();
     }
 };
+
+const UnhandledIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && (request.intent.name === 'AMAZON.FallbackIntent' ||
+        request.intent.name === 'AMAZON.YesIntent' || request.intent.name === 'AMAZON.NoIntent'
+        || request.intent.name === 'AMAZON.CancelIntent' || request.intent.name === 'AMAZON.RepeatIntent');
+    },
+    handle(handlerInput) {
+        const say = 'I could not quite understand what you said. Would you like to know something else?';
+
+        return handlerInput.responseBuilder
+            .speak(say)
+            .reprompt(say)
+            .getResponse();
+    }
+};
+
 skillBuilder.addRequestHandlers(
     LaunchRequestHandler,
     HelpIntentHandler,
     StopIntentHandler,
+    UnhandledIntentHandler
 );
 
 const skill = skillBuilder.create();
