@@ -64,6 +64,41 @@ const StopIntentHandler = {
     }
 };
 
+const PokemonInfoHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'pokemon_info';
+    },
+    async handle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        let say = '';
+        const slotValues = request.intent.slots;
+
+        if (slotValues && slotValues.pokemon && slotValues.pokemon.value) {
+            let pokemon = slotValues.pokemon.value;
+            let data = await getPokemonData(pokemon);
+            if (data.error !== undefined) {
+                say = 'Hmm, I\'m not sure I know about ' + pokemon + ', are you sure it is a pokemon?';
+            } else {
+                say = 'Okay, ' + pokemon + ' is a ';
+                say += data.types[0].type.name;
+                if (data.types.length > 1) {
+                    say += ' and ' + data.types[1].type.name;
+                }
+                say += ' type pokemon with a height of ' + data.height + ' and a weight of ' + data.weight + '.'; 
+            }
+        } else {
+            say = 'Please specify a Pokemon.';
+        }
+
+        say += ' What else would you like to know?';
+        return handlerInput.responseBuilder
+            .speak(say)
+            .reprompt(say)
+            .getResponse();
+    }
+};
+
 const UnhandledIntentHandler = {
     canHandle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
@@ -85,6 +120,7 @@ skillBuilder.addRequestHandlers(
     LaunchRequestHandler,
     HelpIntentHandler,
     StopIntentHandler,
+    PokemonInfoHandler,
     UnhandledIntentHandler
 );
 
