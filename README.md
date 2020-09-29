@@ -13,3 +13,6 @@ Here is a sample conversation using the Alexa Skill:
 
 Bugs:
 - I noticed that when I asked Alexa about Pikachu, it was processed as hearing "pikachū", thus it could not call the PokeAPI with the correct name. Could be fixed by manually replacing the ū with a u when "pikachū" is heard.
+
+To-do:
+- The code is currently all located in app.js, however it should be refactored by grouping related functionality together and splitting the code into multiple files. If I had to add more to the project, refactoring the code would be my first priority.
