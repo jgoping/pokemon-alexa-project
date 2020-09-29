@@ -99,6 +99,46 @@ const PokemonInfoHandler = {
     }
 };
 
+const PokemonTraitHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'pokemon_trait';
+    },
+    async handle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        let say = '';
+        const slotValues = request.intent.slots;
+
+        if (slotValues && slotValues.pokemon && slotValues.pokemon.value && slotValues.trait) {
+            let pokemon = slotValues.pokemon.value;
+            let trait = slotValues.trait.value;
+            let data = await getPokemonData(pokemon);
+            if (data.error !== undefined || (trait !== 'type' && trait !== 'height' && trait !== 'weight')) {
+                say = 'Hmm, I don\'t know if I know this ' + trait + ' about ' + pokemon + '.';
+            } else if (trait === 'type') {
+                say = 'Okay, ' + pokemon + ' is a ';
+                say += data.types[0].type.name;
+                if (data.types.length > 1) {
+                    say += ' and ' + data.types[1].type.name;
+                }
+                say += ' type pokemon.'; 
+            } else if (trait === 'height') {
+                say = 'Okay, ' + pokemon + ' is ' + data.height + ' high.';
+            } else if (trait === 'weight') {
+                say = 'Okay, ' + pokemon + ' has a weight of ' + data.weight + '.';
+            }
+        } else {
+            say = 'I\'m sorry, I don\'t know this pokemon.';
+        }
+
+        say += ' What else would you like to know?';
+        return handlerInput.responseBuilder
+            .speak(say)
+            .reprompt(say)
+            .getResponse();
+    }
+};
+
 const UnhandledIntentHandler = {
     canHandle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
@@ -121,6 +161,7 @@ skillBuilder.addRequestHandlers(
     HelpIntentHandler,
     StopIntentHandler,
     PokemonInfoHandler,
+    PokemonTraitHandler,
     UnhandledIntentHandler
 );
 
