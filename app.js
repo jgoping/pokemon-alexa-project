@@ -1,8 +1,22 @@
 const express = require('express');
 const { ExpressAdapter } = require('ask-sdk-express-adapter');
+const axios = require('axios');
+
 const app = express();
 const Alexa = require('ask-sdk-core');
 const skillBuilder = Alexa.SkillBuilders.custom();
+
+// Function used to make the get request to the Pokemon API
+const getPokemonData = async (pokemon) => {
+    return axios.get('http://pokeapi.co/api/v2/pokemon/' + pokemon).then((res) => {
+        const types = res.data.types;
+        const height = res.data.height;
+        const weight = res.data.weight;
+        return { types: types, height: height, weight: weight };
+    }).catch(() => {
+        return { error: 'Could not get pokemon data.' };
+    });;
+};
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
