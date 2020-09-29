@@ -18,6 +18,72 @@ const getPokemonData = async (pokemon) => {
     });;
 };
 
+// Stores information about super effective match-ups
+const superEffectiveMap = {
+    'bug': new Set(['grass', 'dark', 'psychic']),
+    'dark': new Set(['ghost', 'psychic']),
+    'dragon': new Set(['dragon']),
+    'electric':	new Set(['flying', 'water']),
+    'fairy': new Set(['fighting', 'dark', 'dragon']),
+    'fighting': new Set(['dark', 'ice', 'normal', 'rock', 'steel']),
+    'fire': new Set(['bug', 'grass', 'ice', 'steel']),
+    'flying': new Set(['bug', 'fighting', 'grass']),
+    'ghost': new Set(['ghost', 'psychic']),
+    'grass': new Set(['ground', 'rock', 'water']),
+    'ground': new Set(['electric', 'fire', 'poison', 'rock', 'steel']),
+    'ice': new Set(['dragon', 'flying', 'grass', 'ground']),
+    'normal': new Set(),
+    'poison': new Set(['fairy', 'grass']),
+    'psychic': new Set(['fighting', 'poison']),
+    'rock': new Set(['bug', 'fire', 'flying', 'ice']),
+    'steel': new Set(['fairy', 'ice', 'rock']),
+    'water': new Set(['fire', 'ground', 'rock']),
+};
+
+// Stores information about not very effective match-ups
+const notVeryEffectiveMap = {
+    'bug': new Set(['fighting', 'flying', 'poison', 'ghost', 'steel', 'fire', 'fairy']),
+    'dark': new Set(['poison', 'steel', 'fire']),
+    'dragon': new Set(['steel']),
+    'electric':	new Set(['grass', 'electric', 'dragon']),
+    'fairy': new Set(['poison', 'steel', 'fire']),
+    'fighting': new Set(['flying', 'poison', 'bug', 'psychic']),
+    'fire': new Set(['rock', 'fire', 'water', 'dragon']),
+    'flying': new Set(['electric', 'rock', 'steel']),
+    'ghost': new Set(['dark']),
+    'grass': new Set(['flying', 'poison', 'bug', 'steel', 'fire', 'grass', 'dragon']),
+    'ground': new Set(['bug', 'grass']),
+    'ice': new Set(['steel', 'fire', 'water', 'ice']),
+    'normal': new Set(['rock', 'steel']),
+    'poison': new Set(['poison', 'ground', 'rock', 'ghost']),
+    'psychic': new Set(['steel', 'psychic']),
+    'rock': new Set(['fighting', 'ground', 'steel']),
+    'steel': new Set(['steel', 'fire', 'water', 'electric']),
+    'water': new Set(['water', 'grass', 'dragon']),
+};
+
+// Stores information about no effect match-ups
+const noEffectMap = {
+    'bug': new Set(),
+    'dark': new Set(),
+    'dragon': new Set(),
+    'electric':	new Set(['ground']),
+    'fairy': new Set(),
+    'fighting': new Set(['ghost']),
+    'fire': new Set(),
+    'flying': new Set(),
+    'ghost': new Set(['normal']),
+    'grass': new Set(),
+    'ground': new Set(['flying']),
+    'ice': new Set(),
+    'normal': new Set(['ghost']),
+    'poison': new Set(['steel']),
+    'psychic': new Set(['dark']),
+    'rock': new Set(),
+    'steel': new Set(),
+    'water': new Set(),
+}
+
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
