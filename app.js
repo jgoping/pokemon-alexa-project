@@ -231,6 +231,53 @@ const PokemonTraitHandler = {
     }
 };
 
+const PokemonAttackHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'pokemon_attack';
+    },
+    async handle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        let say = '';
+        const slotValues = request.intent.slots;
+
+        if (slotValues && slotValues.attacker && slotValues.foe) {
+            const attacker = slotValues.attacker.value;
+            const foe = slotValues.foe.value;
+            const attackerData = await getPokemonData(attacker);
+            const foeData = await getPokemonData(foe);
+
+            if (attackerData.error !== undefined || foeData.error !== undefined) {
+                say = 'Hmm, I don\'t know if I know these pokemon.';
+            } else {
+                const attackerType1 = attackerData.types[0].type.name;
+                const attackerType2 = attackerData.types.length > 1 ? attackerData.types[1].type.name : '';
+                const foeType1 = foeData.types[0].type.name;
+                const foeType2 = foeData.types.length > 1 ? foeData.types[1].type.name : '';
+                
+                // Attacker uses a move of type 1
+                say += 'Okay, ' + attacker + ' uses a ' + attackerType1 + ' type move: ';
+                let multiplier = getMultiplier(attackerType1, foeType1, foeType2);
+                say += 'it is ' + multiplier + 'x effective.';
+                
+                if (attackerType2 !== '') {
+                    say += ' Now ' + attacker + ' uses a ' + attackerType2 + ' type move: ';
+                    multiplier = getMultiplier(attackerType2, foeType1, foeType2);
+                    say += 'it is ' + multiplier + 'x effective.';
+                }
+            }
+        } else {
+            say = 'I\'m sorry, I could not understand what you meant.';
+        }
+
+        say += ' What else would you like to know?';
+        return handlerInput.responseBuilder
+            .speak(say)
+            .reprompt(say)
+            .getResponse();
+    }
+};
+
 const UnhandledIntentHandler = {
     canHandle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
@@ -254,6 +301,7 @@ skillBuilder.addRequestHandlers(
     StopIntentHandler,
     PokemonInfoHandler,
     PokemonTraitHandler,
+    PokemonAttackHandler,
     UnhandledIntentHandler
 );
 
