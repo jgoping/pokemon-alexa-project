@@ -18,6 +18,32 @@ const getPokemonData = async (pokemon) => {
     });;
 };
 
+// Function used to determine the effectiveness of a move against a foe
+const getMultiplier = (attackerType, foeType1, foeType2) => {
+    let multiplier = 1;
+    const superEffectiveSet = superEffectiveMap[attackerType];
+    const notVeryEffectiveSet = notVeryEffectiveMap[attackerType];
+    const noEffectSet = noEffectMap[attackerType];
+    if (noEffectSet.has(foeType1) || noEffectSet.has(foeType2)) {
+        multiplier = 0;
+    } else {
+        // Type 1
+        if (superEffectiveSet.has(foeType1)) {
+            multiplier *= 2;
+        } else if (notVeryEffectiveSet.has(foeType1)) {
+            multiplier /= 2;
+        }
+
+        // Type 2
+        if (superEffectiveSet.has(foeType2)) {
+            multiplier *= 2;
+        } else if (notVeryEffectiveSet.has(foeType2)) {
+            multiplier /= 2;
+        }
+    }
+    return multiplier;
+}
+
 // Stores information about super effective match-ups
 const superEffectiveMap = {
     'bug': new Set(['grass', 'dark', 'psychic']),
