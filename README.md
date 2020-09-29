@@ -1,6 +1,6 @@
 # pokemon-alexa-project
 
-This is the express.js server that handles the state of an Alexa Skill made for talking about Pokemon! It works by using the ASK SDK Express Adapter to work with Alexa and the PokeAPI for Pokemon info.
+This is the Express server that handles the state of an Alexa Skill made for talking about Pokemon! It works by using the ASK SDK Express Adapter to work with Alexa and the PokeAPI for Pokemon info.
 
 Here are the kinds of things you can ask it:
 - Ask about a Pokemon: "Tell me about Jigglypuff."
