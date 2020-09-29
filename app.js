@@ -36,9 +36,23 @@ const HelpIntentHandler = {
     }
 };
 
+const StopIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'AMAZON.StopIntent';
+    },
+    handle(handlerInput) {
+        const say = 'Thank you for using the Pokemon Info skill!';
+
+        return handlerInput.responseBuilder
+            .speak(say)
+            .getResponse();
+    }
+};
 skillBuilder.addRequestHandlers(
     LaunchRequestHandler,
     HelpIntentHandler,
+    StopIntentHandler,
 );
 
 const skill = skillBuilder.create();
