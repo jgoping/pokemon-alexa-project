@@ -1,0 +1,174 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "pokemon info",
+            "modelConfiguration": {
+                "fallbackIntentSensitivity": {
+                    "level": "LOW"
+                }
+            },
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": [
+                        "yes"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": [
+                        "no thanks"
+                    ]
+                },
+                {
+                    "name": "AMAZON.RepeatIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "pokemon_info",
+                    "slots": [
+                        {
+                            "name": "pokemon",
+                            "type": "pokemon"
+                        }
+                    ],
+                    "samples": [
+                        "describe {pokemon}",
+                        "what is {pokemon} ",
+                        "give me info about {pokemon} ",
+                        "tell me about {pokemon} "
+                    ]
+                },
+                {
+                    "name": "pokemon_trait",
+                    "slots": [
+                        {
+                            "name": "pokemon",
+                            "type": "pokemon"
+                        },
+                        {
+                            "name": "trait",
+                            "type": "trait"
+                        }
+                    ],
+                    "samples": [
+                        "{pokemon} {trait} ",
+                        "what {trait} is {pokemon} ",
+                        "what is {pokemon} {trait}"
+                    ]
+                },
+                {
+                    "name": "pokemon_attack",
+                    "slots": [
+                        {
+                            "name": "attacker",
+                            "type": "pokemon"
+                        },
+                        {
+                            "name": "foe",
+                            "type": "pokemon"
+                        }
+                    ],
+                    "samples": [
+                        "{attacker} {foe} ",
+                        "how effective is {attacker} versus {foe}",
+                        "{attacker} attacks {foe}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": [
+                {
+                    "name": "pokemon",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "pikachu",
+                                "synonyms": [
+                                    "raichu",
+                                    "pichu"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "charizard",
+                                "synonyms": [
+                                    "charmeleon",
+                                    "charmander"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "squirtle",
+                                "synonyms": [
+                                    "blastoise"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bulbasaur"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mewtwo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mew"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jigglypuff"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "trait",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "height"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "type"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "weight"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
