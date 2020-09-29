@@ -4,7 +4,7 @@ This is the express.js server that handles the state of an Alexa Skill made for 
 
 Here are the kinds of things you can ask it:
 - Ask about a Pokemon: "Tell me about Jigglypuff."
-- Ask about a trait of a Pokemon: "What is the type of Tropius?"
+- Ask about a trait of a Pokemon: "What type is Tropius?"
 - See the type match-up between two Pokemon: "How effective is Bulbasaur against Squirtle?"
 
 Bugs:
